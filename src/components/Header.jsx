@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Trophy, ClipboardList, PlusCircle } from 'lucide-react';
+import { Shield, Trophy, ClipboardList, PlusCircle, LogIn, LogOut, User } from 'lucide-react';
 
 const tabs = [
   { key: 'report', label: 'Report', icon: PlusCircle },
@@ -8,7 +8,9 @@ const tabs = [
   { key: 'admin', label: 'Municipal', icon: Shield },
 ];
 
-export default function Header({ activeTab, onChange }) {
+export default function Header({ activeTab, onChange, auth, onOpenAuth, onLogout }) {
+  const roleLabel = auth?.role === 'municipal' ? 'Municipal' : auth?.role === 'user' ? 'Citizen' : null;
+
   return (
     <header className="sticky top-0 z-20 backdrop-blur bg-white/70 border-b border-gray-100">
       <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
@@ -36,6 +38,20 @@ export default function Header({ activeTab, onChange }) {
             </button>
           ))}
         </nav>
+        <div className="flex items-center gap-2">
+          {auth ? (
+            <div className="flex items-center gap-2">
+              <span className="hidden sm:inline-flex items-center gap-1 text-sm text-gray-700"><User size={16} />{roleLabel}</span>
+              <button onClick={onLogout} className="inline-flex items-center gap-1 px-3 py-2 text-sm rounded-md bg-gray-100 hover:bg-gray-200">
+                <LogOut size={16} /> Sign out
+              </button>
+            </div>
+          ) : (
+            <button onClick={onOpenAuth} className="inline-flex items-center gap-1 px-3 py-2 text-sm rounded-md bg-emerald-600 text-white hover:bg-emerald-700">
+              <LogIn size={16} /> Sign in
+            </button>
+          )}
+        </div>
       </div>
     </header>
   );

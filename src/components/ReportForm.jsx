@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Camera, MapPin, Send, Sparkles } from 'lucide-react';
+import MapView from './MapView';
 
 const CATEGORIES = [
   'Pothole',
@@ -79,7 +80,6 @@ export default function ReportForm({ onSubmit }) {
     if (!description.trim()) return;
     setSubmitting(true);
 
-    // In a full implementation, image + fields would be sent to backend.
     const payload = {
       name: name.trim() || 'Citizen',
       description: description.trim(),
@@ -89,7 +89,6 @@ export default function ReportForm({ onSubmit }) {
         lng: coords.lng ? Number(coords.lng) : null,
         address: address.trim() || '',
       },
-      // Store preview URL for demo; real app would upload and store a permanent URL
       imageUrl: preview || '',
       timestamp: Date.now(),
     };
@@ -98,6 +97,13 @@ export default function ReportForm({ onSubmit }) {
     setSubmitting(false);
     reset();
   }
+
+  const mapCenter = coords.lat && coords.lng
+    ? { lat: Number(coords.lat), lng: Number(coords.lng) }
+    : { lat: 28.6139, lng: 77.209 };
+  const mapMarkers = coords.lat && coords.lng
+    ? [{ lat: Number(coords.lat), lng: Number(coords.lng), label: 'Reported location' }]
+    : [];
 
   return (
     <form onSubmit={submit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
@@ -215,6 +221,10 @@ export default function ReportForm({ onSubmit }) {
           >
             <MapPin size={16} /> Use my current location
           </button>
+
+          <div className="pt-2">
+            <MapView center={mapCenter} markers={mapMarkers} height="300px" />
+          </div>
         </div>
 
         <div className="lg:col-span-1">
