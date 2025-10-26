@@ -2,12 +2,9 @@
 > vibe-generated-app@1.0.0 dev
 > vite
 
-
-  VITE v5.4.20  ready in 877 ms
-
-  ➜  Local:   http://localhost:3000/
-  ➜  Network: http://172.20.19.96:3000/
-5:43:53 PM [vite] warning: The character ">" is not valid inside a JSX element
+error when starting dev server:
+Error: Port 3000 is already in use
+    at Server.onError (file:///home/workspace/nod5:48:36 PM [vite] warning: The character ">" is not valid inside a JSX element
 90 |                    className="px-3 py-2 rounded-md text-sm bg-emerald-600 text-white hover:bg-emerald-700"
 91 |                  >
 92 |                    Cleanup: Resolved > 7 days
